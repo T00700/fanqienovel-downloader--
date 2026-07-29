@@ -1,5 +1,4 @@
 # Fanqienovel-downloader
-QQ群号：428582738，欢迎讨论
 
 
 ### 由于上学的原因，作者无法及时回复，敬请谅解
@@ -124,15 +123,12 @@ Before using this program, please ensure compliance with relevant laws and regul
 
 本程序遵循[AGPL-3.0](https://github.com/ying-ck/fanqienovel-downloader?tab=AGPL-3.0-1-ov-file)开源。使用本程序源码时请注明来源，并同样使用此协议。
 
-## 作者
-
-- 作者：Yck (ying-ck) & Yqy(qxqycb) & Lingo(lingo34)
 
 ## Star趋势
 
 ![Stars](https://api.star-history.com/svg?repos=ying-ck/fanqienovel-downloader&type=Date)
 
-## 赞助作者
+## 赞助
 
 ![afdian-qxqycb](https://github.com/user-attachments/assets/19495126-7f23-410f-9796-c000df3c4185)
 爱发电：https://afdian.com/a/qxqycb
