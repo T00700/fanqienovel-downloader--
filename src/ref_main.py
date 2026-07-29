@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import requests as req
+from curl_cffi import requests as req
 from lxml import etree
 from lxml import html
 from tkinter import Tk, filedialog
@@ -23,9 +23,7 @@ from io import BytesIO
 class NetworkManager:
     def __init__(self):
         self.session = req.Session()
-        self.session.mount('http://', req.adapters.HTTPAdapter(max_retries=3))
-        self.session.mount('https://', req.adapters.HTTPAdapter(max_retries=3))
-        
+        #fuck github fuck microsoft fuck copilot        
         self.session.headers.update({
             'User-Agent': random.choice(headers_lib)['User-Agent'],
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -50,6 +48,7 @@ class NetworkManager:
                     method,
                     url,
                     timeout=timeout,
+                    impersonate="chrome",
                     **kwargs
                 )
                 response.raise_for_status()
@@ -223,7 +222,7 @@ def down_zj(it):
     an = {}
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36'}
-    response = req.get('https://fanqienovel.com/page/' + str(it), headers=headers)
+    response = req.get('https://fanqienovel.com/page/' + str(it), headers=headers,impersonate="chrome")
     if response.status_code == 200:
         time.sleep(1)
         ele = etree.HTML(response.text)
@@ -354,7 +353,7 @@ def down_book(it, chapter_range=""):
         json.dump(zj, json_file, ensure_ascii=False)
 
     url = f'https://fanqienovel.com/page/{it}'
-    response = req.get(url)
+    response = req.get(url,impersonate="chrome")
     soup = BeautifulSoup(response.text, 'html.parser')
     name_element = soup.find('h1')
     if name_element:
@@ -434,7 +433,7 @@ def down_book_epub(it, chapter_range=""):
     book_json_path = os.path.join(bookstore_dir, safe_name + '.json')
 
     url = f'https://fanqienovel.com/page/{it}'
-    response = req.get(url)
+    response = req.get(url,impersonate="chrome")
     soup = BeautifulSoup(response.text, 'html.parser')
     author_name_element = soup.find('div', class_='author-name')
     author_name = None
@@ -535,7 +534,7 @@ def down_book_html(it, chapter_range=""):
             existing_json_content = json.load(json_file)
 
     url = f'https://fanqienovel.com/page/{it}'
-    response = req.get(url)
+    response = req.get(url,impersonate="chrome")
     soup = BeautifulSoup(response.text, 'html.parser')
     name_element = soup.find('h1')
     if name_element:
@@ -958,7 +957,7 @@ def down_book_latex(it, chapter_range=""):
 
     # 获取作者信息和内容简介
     url = f'https://fanqienovel.com/page/{it}'
-    response = req.get(url)
+    response = req.get(url,impersonate="chrome")
     soup = BeautifulSoup(response.text, 'html.parser')
     # 获取小说名
     name_element = soup.find('h1')
@@ -1028,7 +1027,7 @@ def search():
         if key == '':
             return 'b'
         url = f"https://api5-normal-lf.fqnovel.com/reading/bookapi/search/page/v/?query={key}&aid=1967&channel=0&os_version=0&device_type=0&device_platform=0&iid=466614321180296&passback={{(page-1)*10}}&version_code=999"
-        response = req.get(url)
+        response = req.get(url,impersonate="chrome")
         if response.status_code == 200:
             data = response.json()
             if data['code'] == 0:
@@ -1202,7 +1201,7 @@ class Config:
             # 检查必要功能是否可用
             try:
                 # 测试请求功能
-                req.get('https://www.baidu.com', timeout=1)
+                req.get('https://www.baidu.com', timeout=1,impersonate="chrome")
                 check_results['runtime_env']['details'].append("✓ 网络请求功能正常")
             except:
                 pass
@@ -1811,7 +1810,7 @@ def export_audiobook(book_id, chapter_range=""):
         def get_audio_url(chapter_id):
             try:
                 api_url = f"https://reading.snssdk.com/reading/reader/audio/playinfo/?tone_id=1&item_ids={chapter_id}&pv_player=-1&aid=1967"
-                response = req.get(api_url, headers=headers)
+                response = req.get(api_url, headers=headers,impersonate="chrome")
                 if response.status_code == 200:
                     data = response.json()
                     if data.get("code") == 0 and data.get("data"):
@@ -1831,7 +1830,7 @@ def export_audiobook(book_id, chapter_range=""):
                     return False
                     
                 output_path = os.path.join(audio_dir, f"{sanitize_filename(chapter_title)}.mp3")
-                response = req.get(audio_url, stream=True)
+                response = req.get(audio_url, stream=True,impersonate="chrome")
                 response.raise_for_status()
                 
                 with open(output_path, 'wb') as f:
@@ -2185,7 +2184,7 @@ while True:
                     continue
                 author_name = None
                 url = f'https://fanqienovel.com/page/{book_id}'
-                response = req.get(url)
+                response = req.get(url,impersonate="chrome")
                 soup = BeautifulSoup(response.text, 'html.parser')
                 script_tag = soup.find('script', type="application/ld+json")
                 if script_tag:

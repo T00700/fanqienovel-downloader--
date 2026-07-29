@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import requests as req
+from curl_cffi import requests as req #fuck copilot 
 from lxml import etree
 from ebooklib import epub
 from tqdm import tqdm
@@ -213,7 +213,7 @@ class NovelDownloader:
         }
 
         try:
-            response = req.get(url, params=params, headers=self.headers)
+            response = req.get(url, params=params, headers=self.headers,impersonate="chrome")
             response.raise_for_status()
             data = response.json()
 
@@ -870,7 +870,7 @@ class NovelDownloader:
     def _get_chapter_list(self, novel_id: int) -> tuple:
         """Get novel info and chapter list"""
         url = f'https://fanqienovel.com/page/{novel_id}'
-        response = req.get(url, headers=self.headers)
+        response = req.get(url, headers=self.headers,impersonate="chrome")
         ele = etree.HTML(response.text)
 
         chapters = {}
@@ -903,7 +903,7 @@ class NovelDownloader:
                 response = req.get(
                     f'https://fanqienovel.com/reader/{chapter_id}',
                     headers=headers,
-                    timeout=10
+                    timeout=10,impersonate="chrome"
                 )
                 response.raise_for_status()
 
@@ -943,7 +943,8 @@ class NovelDownloader:
                 try:
                     response = req.get(
                         f'https://fanqienovel.com/api/reader/full?itemId={chapter_id}',
-                        headers=headers
+                        headers=headers,
+                        impersonate="chrome"#fuck copilot
                     )
                     content = json.loads(response.text)['data']['chapterData']['content']
 
@@ -962,7 +963,7 @@ class NovelDownloader:
         """Get author information from novel page"""
         url = f'https://fanqienovel.com/page/{novel_id}'
         try:
-            response = req.get(url, headers=self.headers)
+            response = req.get(url, headers=self.headers,impersonate="chrome")
             soup = BeautifulSoup(response.text, 'html.parser')
             script_tag = soup.find('script', type="application/ld+json")
             if script_tag:
@@ -977,7 +978,7 @@ class NovelDownloader:
         """Get cover image URL from novel page"""
         url = f'https://fanqienovel.com/page/{novel_id}'
         try:
-            response = req.get(url, headers=self.headers)
+            response = req.get(url, headers=self.headers,impersonate="chrome")
             soup = BeautifulSoup(response.text, 'html.parser')
             script_tag = soup.find('script', type="application/ld+json")
             if script_tag:
@@ -991,7 +992,7 @@ class NovelDownloader:
     def _add_cover_to_epub(self, book: epub.EpubBook, cover_url: str):
         """Add cover image to EPUB book"""
         try:
-            response = req.get(cover_url)
+            response = req.get(cover_url,impersonate="chrome")
             if response.status_code == 200:
                 book.set_cover('cover.jpg', response.content)
 
