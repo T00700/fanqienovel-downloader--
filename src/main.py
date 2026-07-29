@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from curl_cffi import requests as req #
+from curl_cffi import requests as req #fuck copilot 
 from lxml import etree
 from ebooklib import epub
 from tqdm import tqdm
@@ -943,8 +943,8 @@ class NovelDownloader:
                 try:
                     response = req.get(
                         f'https://fanqienovel.com/api/reader/full?itemId={chapter_id}',
-                        headers=headers
-                        ,impersonate="chrome"
+                        headers=headers,
+                        impersonate="chrome"#fuck copilot
                     )
                     content = json.loads(response.text)['data']['chapterData']['content']
 

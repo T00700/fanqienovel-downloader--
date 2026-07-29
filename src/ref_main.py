@@ -23,9 +23,7 @@ from io import BytesIO
 class NetworkManager:
     def __init__(self):
         self.session = req.Session()
-        self.session.mount('http://', req.adapters.HTTPAdapter(max_retries=3))
-        self.session.mount('https://', req.adapters.HTTPAdapter(max_retries=3))
-        
+        #fuck github fuck microsoft fuck copilot        
         self.session.headers.update({
             'User-Agent': random.choice(headers_lib)['User-Agent'],
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -50,6 +48,7 @@ class NetworkManager:
                     method,
                     url,
                     timeout=timeout,
+                    impersonate="chrome",
                     **kwargs
                 )
                 response.raise_for_status()
