@@ -121,7 +121,7 @@ Before using this program, please ensure compliance with relevant laws and regul
 
 ## Star趋势
 
-![Stars](https://api.star-history.com/svg?repos=ying-ck/fanqienovel-downloader&type=Date)
+![Stars](https://star-history.dera.page/svg?repos=ying-ck/fanqienovel-downloader&type=Date)
 
 ## 赞助
 
